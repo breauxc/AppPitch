@@ -1,0 +1,78 @@
+---
+title       : Definite Integral Approximation
+subtitle    : An Application for the Developing Data Products Course Project
+author      : Chris Breaux
+job         : 
+framework   : io2012      # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Introduction
+
+Approximating Definite Integrals is an application that illustrates the concept of integration from basic calculus. The following is the basic workflow:
+
+1. The user inputs a function
+2. A plot of the corresponding curve is shown
+3. The area under the curve is estimated by drawing a user-specified number of rectangles
+
+---
+
+## Example Graph Output
+Consider the following example:
+
+Function = $x^2/e^x$, Number of Rectangles = 10
+
+```{r echo=FALSE,fig.align='center'}
+
+expr = parse(text="x^2/exp(x)")
+fn = function(x) eval(expr)
+ll = 0
+ul = 10
+n = 10
+
+fnx = seq(from = ll, to = ul, length.out = n+1)
+fnx = fnx[-length(fnx)]
+fny = fn(fnx)
+
+curve(fn, from = ll, to = ul)
+rect(fnx,0,fnx+(ul-ll)/n,fny,border=TRUE)
+```
+
+
+
+---
+
+## Better Approximations to the Definite Integral
+
+When we increase the number of rectangles in the plot, the sum of the areas of the rectangles becomes a closer approximation of the the true value of the definite integral. 
+
+Function = $x^2/e^x$, Number of Rectangles = 100
+```{r echo=FALSE,fig.align='center'}
+n = 100
+fnx = seq(from = ll, to = ul, length.out = n+1)
+fnx = fnx[-length(fnx)]
+fny = fn(fnx)
+
+curve(fn, from = ll, to = ul)
+rect(fnx,0,fnx+(ul-ll)/n,fny,border=TRUE)
+```
+
+---
+
+## Other options
+
+The application also outputs the sum of the areas of the rectangles and the true value of the definite integral for comparison.
+
+Also, you are able to change the upper and lower bounds over which the integral is evaluated.
+
+However, the most powerful use of the application is that you are free to use an arbitrary arithmatic expression in R to be evaluated. For instance, the following functions are all valid:
+
+* x ^ 2 / exp(x)
+
+* 1 + x + x ^ 2 / 2 + x ^ 3 / 6
+
+* ifelse(x > 3, 3, x)
